@@ -115,3 +115,98 @@ while True:
 
 
 
+# 🌟 Exercise 7: Favorite Fruits
+# Key Python Topics:
+# Input/output
+# Strings and lists
+# Conditionals
+# Instructions:
+# Ask the user to input their favorite fruits (they can input several fruits, separated by spaces).
+# Store these fruits in a list.
+# Ask the user to input the name of any fruit.
+# If the fruit is in their list of favorite fruits, print:
+# "You chose one of your favorite fruits! Enjoy!"
+# If not, print:
+# "You chose a new fruit. I hope you enjoy it!"
+
+favorite_fruits_input = input("Please enter your favorite fruits, separated by spaces: ")
+favorite_fruits = favorite_fruits_input.split()
+fruit_to_check = input("Please enter the name of any fruit: ")
+if fruit_to_check in favorite_fruits:
+    print("You chose one of your favorite fruits! Enjoy!")
+else:
+    print("You chose a new fruit. I hope you enjoy it!")
+
+
+
+    # 🌟 Exercise 8: Pizza Toppings
+# Key Python Topics:
+#
+# Loops
+# Lists
+# String formatting
+# Instructions:
+# Write a loop that asks the user to enter pizza toppings one by one.
+# Stop the loop when the user types 'quit'.
+# For each topping entered, print:
+# "Adding [topping] to your pizza."
+# After exiting the loop, print all the toppings and the total cost of the pizza.
+# The base price is $10, and each topping adds $2.50.
+toppings = []
+while True:
+    topping = input("Enter a pizza topping (or type 'quit' to finish): ")
+    if topping.lower() == 'quit':
+        break
+    toppings.append(topping)
+    print(f"Adding {topping} to your pizza.")
+total_cost = 10 + len(toppings) * 2.5
+print(f"Your pizza has the following toppings: {', '.join(toppings)}.")     
+print(f"Total cost: ${total_cost:.2f}")
+
+
+
+# 🌟 Exercise 9: Cinemax Tickets
+# Key Python Topics:
+# Conditionals
+# Lists
+# Loops
+# Instructions:
+# Ask for the age of each person in a family who wants to buy a movie ticket.
+# Calculate the total cost based on the following rules:
+# Free for people under 3.
+# $10 for people aged 3 to 12.
+# $15 for anyone over 12.
+# Print the total ticket cost.
+
+
+ages = []
+while True:
+    age_input = input("Enter the age of a family member (or type 'done' to finish): ")
+    if age_input.lower() == 'done':
+        break
+    try:
+        age = int(age_input)
+        ages.append(age)
+    except ValueError:
+        print("Please enter a valid number.")
+
+total_cost = 0
+for age in ages:
+    if age < 3:
+        total_cost += 0
+    elif 3 <= age <= 12:
+        total_cost += 10
+    else:
+        total_cost += 15
+
+print(f"Total ticket cost: ${total_cost}")
+
+
+# Bonus:
+# Imagine a group of teenagers wants to see a restricted movie (only for ages 16–21).
+# Write a program to:
+# Ask for each person’s age.
+# Remove anyone who isn’t allowed to watch.
+# Print the final list of attendees.
+allowed_attendees = [age for age in ages if 16 <= age <= 21]
+print(f"Final list of attendees for the restricted movie: {allowed_attendees}")
