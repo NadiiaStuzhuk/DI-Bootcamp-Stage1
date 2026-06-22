@@ -178,6 +178,13 @@ print(f"Total cost: ${total_cost:.2f}")
 # $15 for anyone over 12.
 # Print the total ticket cost.
 
+# Bonus:
+# Imagine a group of teenagers wants to see a restricted movie (only for ages 16–21).
+# Write a program to:
+# Ask for each person’s age.
+# Remove anyone who isn’t allowed to watch.
+# Print the final list of attendees.
+
 
 ages = []
 while True:
@@ -201,12 +208,9 @@ for age in ages:
 
 print(f"Total ticket cost: ${total_cost}")
 
-
-# Bonus:
-# Imagine a group of teenagers wants to see a restricted movie (only for ages 16–21).
-# Write a program to:
-# Ask for each person’s age.
-# Remove anyone who isn’t allowed to watch.
-# Print the final list of attendees.
 allowed_attendees = [age for age in ages if 16 <= age <= 21]
 print(f"Final list of attendees for the restricted movie: {allowed_attendees}")
+
+
+
+
