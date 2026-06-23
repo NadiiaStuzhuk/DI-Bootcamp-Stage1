@@ -191,3 +191,126 @@ make_shirt(size="medium")
 make_shirt("small", "Custom message")
 
 make_shirt(text="Hello!", size="small")
+
+
+# 🌟 Exercise 6: Magicians…
+# Goal: Modify a list of magician names and display them in different ways.
+
+# Key Python Topics:
+
+# Lists
+# for loops
+# Modifying lists
+# Functions that modify data structures
+
+# Step 1: Create a List of Magician Names
+# Create a list called magician_names with the given names:
+# ['Harry Houdini', 'David Blaine', 'Criss Angel']
+
+# Step 2: Create a Function to Display Magicians
+# Create a function called show_magicians() that takes the magician_names list as a parameter.
+# Inside the function, iterate through the list and print each magician’s name.
+
+# Step 3: Create a Function to Modify the List
+# Create a function called make_great() that takes the magician_names list as a parameter.
+# Inside the function, use a for loop to iterate through the list and add “the Great” before each magician’s name.
+
+# Step 4: Call the Functions
+# Call make_great() to modify the list.
+# Call show_magicians() to display the modified list.
+
+# Expected Output:
+# Harry Houdini the Great
+# David Blaine the Great
+# Criss Angel the Great
+
+# Here’s the updated format for Exercise 7: Temperature Advice to match the style of Exercise 6: Magicians:
+
+magician_names = ['Harry Houdini', 'David Blaine', 'Criss Angel']
+
+def show_magicians(magicians):
+    for magician in magicians:
+        print(magician)
+
+def make_great(magicians):
+    for i in range(len(magicians)):
+        magicians[i] = magicians[i] + " the Great"
+
+make_great(magician_names)
+show_magicians(magician_names)
+
+
+
+# 🌟 Exercise 7: Temperature Advice
+# Goal: Generate a random temperature and provide advice based on the temperature range.
+
+# Key Python Topics:
+# Functions
+# Conditionals (if / elif)
+# Random numbers
+# Floating-point numbers (Bonus)
+# Handling seasons (Bonus)
+
+# Step 1: Create the get_random_temp() Function
+# Create a function called get_random_temp() that returns a random integer between -10 and 40 degrees Celsius.
+
+# Step 2: Create the main() Function
+# Create a function called main(). Inside this function:
+# Call get_random_temp() to get a random temperature.
+# Store the temperature in a variable and print a friendly message like:
+# “The temperature right now is 32 degrees Celsius.”
+
+# Step 3: Provide Temperature-Based Advice
+# Inside main(), provide advice based on the temperature:
+# Below 0°C: e.g., “Brrr, that’s freezing! Wear some extra layers today.”
+# Between 0°C and 16°C: e.g., “Quite chilly! Don’t forget your coat.”
+# Between 16°C and 23°C: e.g., “Nice weather.”
+# Between 24°C and 32°C: e.g., “A bit warm, stay hydrated.”
+# Between 32°C and 40°C: e.g., “It’s really hot! Stay cool.”
+
+# Step 4: Floating-Point Temperatures (Bonus)
+# Modify get_random_temp() to return a random floating-point number using random.uniform() for more accurate temperature values.
+
+# Step 5: Month-Based Seasons (Bonus)
+# Instead of directly generating a random temperature, ask the user for a month (1-12) and determine the season using if/elif conditions.
+# Modify get_random_temp() to return temperatures specific to each season.
+
+# Expected Output:
+# The temperature right now is 32 degrees Celsius.
+# It's really hot! Stay cool.
+
+import random
+
+def get_random_temp(month):
+    """Generates a random floating-point temperature based on the input month/season."""
+    if month in [12, 1, 2]:
+        return round(random.uniform(-10.0, 10.0), 1)
+    elif month in [3, 4, 5]:
+        return round(random.uniform(11.0, 22.0), 1)
+    elif month in [6, 7, 8]:
+        return round(random.uniform(23.0, 40.0), 1)
+    else:
+        return round(random.uniform(5.0, 15.0), 1)
+
+def main():
+    user_month = int(input("Enter a month as a number (1-12): "))
+    
+    if user_month < 1 or user_month > 12:
+        print("Invalid month! Please enter a number between 1 and 12.")
+        return
+
+    temperature = get_random_temp(user_month)
+    print(f"\nThe temperature right now is {temperature} degrees Celsius.")
+    
+    if temperature < 0:
+        print("Brrr, that’s freezing! Wear some extra layers today.")
+    elif 0 <= temperature <= 16:
+        print("Quite chilly! Don’t forget your coat.")
+    elif 16 < temperature <= 23:
+        print("Nice weather.")
+    elif 23 < temperature <= 32:
+        print("A bit warm, stay hydrated.")
+    else:
+        print("It’s really hot! Stay cool.")
+
+main()
