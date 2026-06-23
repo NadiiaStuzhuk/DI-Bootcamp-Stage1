@@ -102,3 +102,92 @@ def describe_city(city, country="Unknown"):
 describe_city("Reykjavik", "Iceland")
 
 describe_city("Paris")
+
+
+
+# Exercise 4: Random
+# Goal: Create a function that generates random numbers and compares them.
+
+# Key Python Topics:
+# random module
+# random.randint() function
+# Conditional statements (if, else)
+
+
+# Step 1: Import the random Module
+# At the beginning of your script, use import random to access the random number generation functions.
+
+# Step 2: Define a Function with a Parameter
+# Create a function that accepts a number between 1 and 100 as a parameter.
+
+# Step 3: Generate a Random Number
+# Inside the function, use random.randint(1, 100) to generate a random integer between 1 and 100.
+
+# Step 4: Compare the Numbers
+# If they are the same, print a success message. Otherwise, print a fail message and display both numbers.
+
+# Step 5: Call the Function
+# Call the function with a number between 1 and 100.
+
+# Expected Output:
+
+# Success! (if the numbers match)
+# Fail! Your number: 50, Random number: 23 (if they don't match)
+
+import random
+
+def compare_random_number(user_number):
+    random_number = random.randint(1, 100)
+    
+    if user_number == random_number:
+        print("Success!")
+    else:
+        print(f"Fail! Your number: {user_number}, Random number: {random_number}")
+
+guessed_number = int(input("Enter a number between 1 and 100: "))
+
+compare_random_number(guessed_number)
+
+
+# 🌟 Exercise 5: Let’s Create Some Personalized Shirts!
+# Goal: Create a function to describe a shirt’s size and message, with default values.
+
+# Key Python Topics:
+# Functions with parameters and default values
+# Keyword arguments
+
+# Step 1: Define a Function with Parameters
+# Define a function called make_shirt().
+# This function should accept two parameters: size and text.
+
+# Step 2: Print a Summary Message
+# Set up the function to display a sentence summarizing the shirt’s size and message.
+
+# Step 3: Call the Function
+
+# Step 4: Modify the Function with Default Values
+# Modify the make_shirt() function so that size has a default value of “large” and text has a default value of “I love Python”.
+
+# Step 5: Call the Function with Default and Custom Values
+# Call make_shirt() to make a large shirt with the default message.
+# Call make_shirt() to make a medium shirt with the default message.
+# Call make_shirt() to make a shirt of any size with a different message.
+
+# Step 6 (Bonus): Keyword Arguments
+# Call make_shirt() using keyword arguments (e.g., make_shirt(size="small", text="Hello!")).
+
+# Expected Output:
+# The size of the shirt is large and the text is I love Python.
+# The size of the shirt is medium and the text is I love Python.
+# The size of the shirt is small and the text is Custom message.
+
+def make_shirt(size="large", text="I love Python"):
+    print(f"The size of the shirt is {size} and the text is {text}.")
+
+make_shirt()
+
+make_shirt(size="medium")
+
+make_shirt("small", "Custom message")
+
+make_shirt(text="Hello!", size="small")
