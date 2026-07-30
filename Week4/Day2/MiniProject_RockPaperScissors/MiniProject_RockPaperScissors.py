@@ -81,13 +81,13 @@
 # When the user chooses to exit the program, call the print_results function in order to display a summary of all the games played.
 
 
+Python
 
-import importlib
+from rock_paper_scissors import run_app
 
-rps_module = importlib.import_module("rock-paper-scissors")
+def main():
+    print("Starting Rock, Paper, Scissors Mini-Project...\n")
+    run_app()
 
 if __name__ == "__main__":
-    print("--- Starting MiniProject Dashboard ---")
-    print("Loading game engine modules...\n")
-    
-    rps_module.main()
+    main()
