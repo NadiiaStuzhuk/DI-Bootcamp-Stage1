@@ -1,212 +1,128 @@
+# 👩‍🏫 👩🏿‍🏫 What You’ll learn
+# OOP Concepts
+# OOP Implementation (Classes, Methods)
+# Data Structures (Lists)
+# Random Number Generation
+
+
 # Key Python Topics:
 
-# OOP (Classes, Class Methods, Inheritance)
-# File handling (open())
-# String manipulation (split(), join(), translate(), regular expressions)
-# Dictionaries
-# Sets
-# Lists
-# string module
-# re module (regular expressions)
-
-
+# OOP (Classes, Methods)
+# Data Structures (Lists)
+# Random Number Generation (random.shuffle())
 # Instructions:
 
-# Create a Text class to analyze text data, either from a string or a file. Then, create a TextModification class to perform text cleaning.
+
+
+# Exercise 1: Quizz
+# Answer the following questions:
+
+# What is a class?
+# What is an instance?
+# What is encapsulation?
+# What is abstraction?
+# What is inheritance?
+# What is multiple inheritance?
+# What is polymorphism?
+# What is method resolution order or MRO?
+
+Exercise 1: OOP Concepts Quiz
+1. What is a class?
+A class is a blueprint or template for creating objects. It defines the attributes (data/properties) and methods (functions/behaviors) that objects created from it will possess.
+
+2. What is an instance?
+An instance is an individual object created from a specific class. While the class acts as the blueprint, an instance is the actual concrete entity created in memory (e.g., my_dog is an instance of the Dog class).
+
+3. What is encapsulation?
+Encapsulation is the practice of bundling data (attributes) and methods that operate on that data inside a single unit (a class), while restricting direct access to internal details from outside the class (often using private/protected variables like _ or __ in Python).
+
+4. What is abstraction?
+Abstraction means hiding complex underlying implementation details and exposing only essential interfaces to the user. This allows users to interact with an object without needing to understand how its internal logic works.
+
+5. What is inheritance?
+Inheritance is a mechanism where a new class (child/subclass) derives attributes and methods from an existing class (parent/superclass). It promotes code reuse and hierarchical relationships.
+
+6. What is multiple inheritance?
+Multiple inheritance occurs when a single subclass inherits directly from more than one parent class (e.g., class Smartphone(Camera, Phone) inherits features from both Camera and Phone).
+
+7. What is polymorphism?
+Polymorphism ("many forms") allows objects of different classes to respond to the exact same method call in their own specific ways (e.g., calling .speak() on a Dog outputs "Woof!", while on a Cat it outputs "Meow!").
+
+8. What is Method Resolution Order (MRO)?
+Method Resolution Order (MRO) is the deterministic order in which Python searches for a method or attribute across a class hierarchy, especially in complex multiple inheritance scenarios. Python uses the C3 Linearization algorithm to determine MRO, which can be inspected using ClassName.__mro__ or ClassName.mro().
 
 
 
-# Part I: Analyzing a Simple String
 
-# Step 1: Create the Text Class
+# Exercise 2: Create a deck of cards class
+# The Deck of cards class should NOT inherit from a Card class.
 
-# Create a class called Text.
-# The __init__ method should take a string as an argument and store it in an attribute (e.g: self.text).
+# The requirements are as follows:
 
+# The Card class should have a suit (Hearts, Diamonds, Clubs, Spades) and a value (A,2,3,4,5,6,7,8,9,10,J,Q,K)
+# The Deck class :
+# should have a shuffle method which makes sure the deck of cards has all 52 cards and then rearranges them randomly.
+# should have a method called deal which deals a single card from the deck. After a card is dealt, it should be removed from the deck.
 
-# Step 2: Implement word_frequency Method
+import random
 
-# Create a method called word_frequency(word).
-# Split the text attribute into a list of words.
-# Count the occurrences of the given word in the list.
-# Return the count.
-# If the word is not found, return None or a meaningful message.
+class Card:
+    """Represents a single playing card with a suit and value."""
+    def __init__(self, suit, value):
+        self.suit = suit
+        self.value = value
 
-
-# Step 3: Implement most_common_word Method
-
-# Create a method called most_common_word().
-# Split the text into a list of words.
-# Use a dictionary to store word frequencies.
-# Find the word with the highest frequency.
-# Return the most common word.
+    def __repr__(self):
+        """String representation of a card for friendly printing."""
+        return f"{self.value} of {self.suit}"
 
 
-# Step 4: Implement unique_words Method
+class Deck:
+    """Represents a deck of 52 playing cards. Does NOT inherit from Card."""
+    SUITS = ["Hearts", "Diamonds", "Clubs", "Spades"]
+    VALUES = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 
-# Create a method called unique_words().
-# Split the text into a list of words.
-# Use a set to store unique words.
-# Return the unique words as a list.
+    def __init__(self):
 
+        self.cards = []
+        self._reset_deck()
 
-# Part II: Analyzing Text from a File
+    def _reset_deck(self):
+        """Populates the deck with all 52 unique Card instances."""
+        self.cards = [Card(suit, value) for suit in self.SUITS for value in self.VALUES]
 
-# Step 5: Implement from_file Class Method
-
-# Create a class method called from_file(file_path).
-# Open the file at file_path in read mode.
-# Read the file content.
-# Create and return a Text instance with the file content as the text.
-
-
-# Bonus: Text Modification
-
-# Step 6: Create the TextModification Class
-
-# Create a class called TextModification that inherits from Text.
-
-
-# Step 7: Implement remove_punctuation Method
-
-# Create a method called remove_punctuation().
-# Use the string module to get a string of punctuation characters.
-# Use a string method or regular expressions to remove punctuation from the text attribute.
-# Return the modified text.
-
-
-# Step 8: Implement remove_stop_words Method
-
-# Create a method called remove_stop_words().
-# Search online for a list of English stop words (common words like “a”, “the”, “is”).
-# Split the text into a list of words.
-# Filter out stop words from the list.
-# Join the remaining words back into a string.
-# Return the modified text.
-
-
-# Step 9: Implement remove_special_characters Method
-
-# Create a method called remove_special_characters().
-# Use regular expressions to remove special characters from the text attribute.
-# Return the modified text.
-
-
-from collections import Counter
-import re
-import string
-
-class Text:
-    def __init__(self, text):
-        """Step 1: Initialize the Text class with a string."""
-        self.text = text
-
-    def _get_clean_words(self):
-        """Helper method to split text into lowercase words, ignoring punctuation."""
-        # Lowercase and extract raw words using regular expressions
-        return re.findall(r'\b\w+\b', self.text.lower())
-
-    def word_frequency(self, word):
-        """Step 2: Count occurrences of a specific word."""
-        words = self._get_clean_words()
-        target = word.lower()
-        count = words.count(target)
-        
-        if count == 0:
-            return f"The word '{word}' was not found in the text."
-        return count
-
-    def most_common_word(self):
-        """Step 3: Find the word with the highest frequency using a dictionary."""
-        words = self._get_clean_words()
-        if not words:
-            return "No words found in the text."
+    def shuffle(self):
+        """
+        Ensures the deck has all 52 cards, resets it if cards are missing,
+        and rearranges them randomly.
+        """
+        if len(self.cards) != 52:
+            print("Deck incomplete or cards were dealt. Resetting to 52 cards before shuffling...")
+            self._reset_deck()
             
-        frequencies = {}
-        for w in words:
-            frequencies[w] = frequencies.get(w, 0) + 1
-            
-        most_common = max(frequencies, key=frequencies.get)
-        return most_common
+        random.shuffle(self.cards)
+        print("Deck shuffled successfully!")
 
-    def unique_words(self):
-        """Step 4: Use a set to return unique words as a list."""
-        words = self._get_clean_words()
-        return list(set(words))
+    def deal(self):
+        """Deals (removes and returns) a single card from the top of the deck."""
+        if not self.cards:
+            print("No cards left in the deck to deal!")
+            return None
+        return self.cards.pop()
 
-    @classmethod
-    def from_file(cls, file_path):
-        """Step 5: Class method to open a file and return a Text instance."""
-        try:
-            with open(file_path, "r", encoding="utf-8") as file:
-                content = file.read()
-            return cls(content)
-        except FileNotFoundError:
-            print(f"[Error] The file '{file_path}' could not be found.")
-            return cls("")
-
-
-
-class TextModification(Text):
-    """Step 6: Class that inherits from Text to handle data cleaning."""
-    
-    def remove_punctuation(self):
-        """Step 7: Remove punctuation characters using the string module."""
-
-        translator = str.maketrans("", "", string.punctuation)
-        cleaned_text = self.text.translate(translator)
-        return cleaned_text
-
-    def remove_stop_words(self):
-        """Step 8: Filter out common English stop words."""
-        stop_words = {
-            "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", 
-            "any", "are", "aren't", "as", "at", "be", "because", "been", "before", "being", 
-            "below", "between", "both", "but", "by", "can", "can't", "cannot", "could", 
-            "couldn't", "did", "didn't", "do", "does", "doesn't", "doing", "don't", "down", 
-            "during", "each", "few", "for", "from", "further", "had", "hadn't", "has", 
-            "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's", "her", 
-            "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", 
-            "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "isn't", "it", 
-            "it's", "its", "itself", "let's", "me", "more", "most", "mustn't", "my", "myself", 
-            "no", "nor", "not", "of", "off", "on", "once", "only", "or", "other", "ought", 
-            "our", "ours", "ourselves", "out", "over", "own", "same", "shan't", "she", 
-            "she'd", "she'll", "she's", "should", "shouldn't", "so", "some", "such", "than", 
-            "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", 
-            "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", 
-            "those", "through", "to", "too", "under", "until", "up", "very", "was", "wasn't", 
-            "we", "we'd", "we'll", "we're", "we've", "were", "weren't", "what", "what's", 
-            "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", 
-            "why", "why's", "with", "won't", "would", "wouldn't", "you", "you'd", "you'll", 
-            "you're", "you've", "your", "yours", "yourself", "yourselves"
-        }
-        
-        words = self.text.split()
-        filtered_words = [w for w in words if w.lower() not in stop_words]
-        return " ".join(filtered_words)
-
-    def remove_special_characters(self):
-        """Step 9: Use regular expressions to keep only letters, numbers, and spaces."""
-        cleaned_text = re.sub(r'[^a-zA-Z0-9 \n]', '', self.text)
-        return cleaned_text
+    def __len__(self):
+        return len(self.cards)
 
 
 if __name__ == "__main__":
-    sample_phrase = "The quick brown fox jumps over the lazy dog. The dog was not amused, really!"
+    deck = Deck()
     
-    print("--- Part I: Analyzing a Simple String ---")
-    analyzer = Text(sample_phrase)
+    print(f"Initial deck size: {len(deck)} cards")
+    deck.shuffle()
     
-    print(f"Frequency of 'dog': {analyzer.word_frequency('dog')}")
-    print(f"Frequency of 'cat': {analyzer.word_frequency('cat')}")
-    print(f"Most common word:    {analyzer.most_common_word()}")
-    print(f"Unique words count:  {len(analyzer.unique_words())}")
-    
-    print("\n--- Part III: Text Modification (Bonus) ---")
-    messy_phrase = "Hello World! @2026 #Python coding is awesome... right?"
-    modifier = TextModification(messy_phrase)
-    
-    print(f"Original:           {messy_phrase}")
-    print(f"No Punctuation:     {modifier.remove_punctuation()}")
-    print(f"No Stop Words:      {modifier.remove_stop_words()}")
-    print(f"No Special Chars:   {modifier.remove_special_characters()}")
+    dealt_card = deck.deal()
+    print(f"Dealt card: {dealt_card}")
+    print(f"Remaining cards in deck: {len(deck)}")  
+
+    deck.shuffle()
+    print(f"Deck size after re-shuffling: {len(deck)}")
