@@ -7,7 +7,7 @@ class Game:
         """Asks the user to select an item with data validation.
 
         Keeps asking until a valid choice ('r', 'p', or 's') is entered.
-        Returns the full name of the choice.
+        Returns the full name of the choice ('rock', 'paper', or 'scissors').
         """
         valid_choices = {
             "r": "rock",
@@ -42,7 +42,6 @@ class Game:
         if user_item == computer_item:
             return "draw"
 
-
         winning_combos = {
             "rock": "scissors",
             "paper": "rock",
@@ -62,7 +61,6 @@ class Game:
         user_item = self.get_user_item()
         computer_item = self.get_computer_item()
         result = self.get_game_result(user_item, computer_item)
-
 
         if result == "win":
             outcome_text = "You win!"
