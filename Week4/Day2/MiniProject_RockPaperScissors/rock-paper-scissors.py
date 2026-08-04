@@ -1,4 +1,4 @@
-from Week4.Day2.MiniProject_RockPaperScissors.game1 import Game
+import Game
 
 
 def get_user_menu_choice():
