@@ -1,179 +1,155 @@
-# What You Will Learn:
-# Core NumPy operations including array creation, manipulation, and basic array operations.
-# Skills in handling one-dimensional and multi-dimensional arrays.
+# Daily Challenge: NumPy, Pandas, and Matplotlib Integration
 
 
-# What You Will Create:
-# A series of NumPy arrays demonstrating different operations, ranging from simple array creation to more complex manipulations.
+# Objective:
+# To integrate your knowledge of NumPy with Pandas and Matplotlib, demonstrating your ability to manipulate and visualize data effectively.
 
 
 
+# 🛠️ What you will create
+# A comprehensive data analysis and visualization project, showcasing temperature trends across different regions using NumPy, Pandas, and Matplotlib.
 
 
-# 🌟 Exercise 1 : Array Creation and Manipulation
-# Instructions
-# Create a 1D NumPy array containing numbers from 0 to 9.
+# 👩‍🏫 👩🏿‍🏫 What You’ll learn
+# How to effectively integrate NumPy, Pandas, and Matplotlib for data manipulation and visualization.
+# Techniques for analyzing and visualizing global weather trends using these libraries.
 
-# Expected Output:
 
-# array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+# Challenge Description:
+# Scenario: You are a data analyst working with a dataset of global weather. Your task is to analyze temperature trends and visualize the results.
 
+# Tasks:
 
+# 1. Data Preparation:
 
-pip install numpy
+# Hint 1: Use np.random.uniform(low, high, size) to generate the temperature data.
+# Hint 2: Create a DataFrame using pd.DataFrame(data, index, columns) with appropriate index and columns.
 
+# Use NumPy to generate a synthetic dataset representing average monthly temperatures (in degrees Celsius) for 12 months across 10 different cities. The temperatures should range from -5 to 35 degrees.
 
+# Convert this NumPy array into a Pandas DataFrame, adding city names as index and months as columns.
+# 2. Data Analysis:
 
+# Hint 1: Calculate the annual average temperature using DataFrame.mean(axis).
+# Hint 2: Find the city with the highest and lowest average temperature using idxmax() and idxmin() methods.
 
+# Calculate the annual average temperature for each city.
 
-# 🌟 Exercise 2 : Type Conversion and Array Operations
-# Instructions
-# Convert a list [3.14, 2.17, 0, 1, 2] into a NumPy array and convert its data type to integer.
+# Identify the city with the highest and lowest average temperature for the year.
+# 3. Data Visualization:
 
-# Expected Output:
 
 
+# Possible visualization might be:
 
-# array([3, 2, 0, 1, 2])
 
+# daily
 
 
+# Deliverables:
+# A Jupyter Notebook containing all the code for data generation, analysis, and visualization.
+# A brief report within the notebook summarizing your findings, including the city with the highest and lowest average temperatures and any interesting trends observed in the data.
 
 
+# Evaluation Criteria:
+# Correctness and efficiency of NumPy and Pandas code used for data manipulation.
+# Effectiveness of data visualization in conveying the temperature trends.
+# Clarity and conciseness of the summary report.
+# Good luck!
 
-# 🌟 Exercise 3 : Working with Multi-Dimensional Arrays
-# Instructions
-# Create a 3x3 NumPy array with values ranging from 1 to 9.
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-# Expected Output:
 
+np.random.seed(42)
 
+cities = [
+    "New York", "London", "Tokyo", "Sydney", "Cairo",
+    "Moscow", "Rio de Janeiro", "Toronto", "Paris", "Mumbai"
+]
+months = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+]
 
-# array([[1, 2, 3],
-#        [4, 5, 6],
-#        [7, 8, 9]])
 
+temp_array = np.random.uniform(low=-5, high=35, size=(10, 12))
 
 
+df_temp = pd.DataFrame(data=temp_array, index=cities, columns=months).round(1)
 
+print("=== Monthly Temperature Dataset (°C) ===")
+display(df_temp)
 
 
-# 🌟 Exercise 4 : Creating Multi-Dimensional Array with Random Numbers
-# Instructions
-# Create a 2D NumPy array of shape (4, 5) filled with random numbers.
+annual_avg = df_temp.mean(axis=1).round(2)
 
-# Expected Output:
 
+df_temp['Annual Avg'] = annual_avg
 
 
-# array([[0.56, 0.85, 0.01, 0.42, 0.68],
-#        [0.22, 0.37, 0.73, 0.93, 0.39],
-#        [0.44, 0.03, 0.87, 0.02, 0.83],
-#        [0.78, 0.87, 0.98, 0.80, 0.46]])
+hottest_city = annual_avg.idxmax()
+hottest_temp = annual_avg.max()
 
+coldest_city = annual_avg.idxmin()
+coldest_temp = annual_avg.min()
 
+print("\n=== Annual Average Temperatures (°C) ===")
+print(annual_avg.to_string())
 
+print(f"\n🔥 Hottest City: {hottest_city} ({hottest_temp}°C)")
+print(f"❄️ Coldest City: {coldest_city} ({coldest_temp}°C)")
 
 
+sns.set_theme(style="whitegrid")
+fig, axes = plt.subplots(2, 2, figsize=(16, 11))
 
 
-# 🌟 Exercise 5 : Indexing Arrays
-# Instructions
-# Select the second row from a given 2D NumPy array.
+sns.heatmap(
+    df_temp.drop(columns=['Annual Avg']),
+    annot=True,
+    fmt=".1f",
+    cmap="YlOrRd",
+    ax=axes[0, 0],
+    cbar_kws={'label': 'Temperature (°C)'}
+)
+axes[0, 0].set_title("1. Monthly Temperature Heatmap (°C) across Cities", fontsize=13, fontweight="bold")
+axes[0, 0].set_xlabel("Month")
+axes[0, 0].set_ylabel("City")
 
-# Expected Output:
 
+cities_sorted = annual_avg.sort_values(ascending=True)
+colors = [
+    'skyblue' if city == coldest_city else ('crimson' if city == hottest_city else 'slategray')
+    for city in cities_sorted.index
+]
+axes[0, 1].barh(cities_sorted.index, cities_sorted.values, color=colors)
+axes[0, 1].set_title("2. Annual Average Temperature Ranking by City", fontsize=13, fontweight="bold")
+axes[0, 1].set_xlabel("Average Temperature (°C)")
+axes[0, 1].set_ylabel("City")
 
 
-# array = np.array([[21,22,23,22,22],[20, 21, 22, 23, 24],[21,22,23,22,22]])
+for i, v in enumerate(cities_sorted.values):
+    axes[0, 1].text(v + 0.3, i, f"{v:.2f}°C", va='center', fontweight='bold', fontsize=10)
 
 
+selected_cities = [hottest_city, coldest_city, "New York", "Tokyo", "Sydney"]
+for city in selected_cities:
+    axes[1, 0].plot(months, df_temp.loc[city, months], marker='o', linewidth=2, label=city)
 
+axes[1, 0].set_title("3. Monthly Temperature Trends for Key Cities", fontsize=13, fontweight="bold")
+axes[1, 0].set_xlabel("Month")
+axes[1, 0].set_ylabel("Temperature (°C)")
+axes[1, 0].legend()
+axes[1, 0].grid(True, linestyle="--", alpha=0.6)
 
 
+sns.boxplot(data=df_temp[months], ax=axes[1, 1], palette="coolwarm")
+axes[1, 1].set_title("4. Monthly Temperature Spread & Global Distribution", fontsize=13, fontweight="bold")
+axes[1, 1].set_xlabel("Month")
+axes[1, 1].set_ylabel("Temperature (°C)")
 
-
-
-# 🌟 Exercise 6 : Reversing elements
-# Instructions
-# Reverse the order of elements in a given 1D NumPy array (first element becomes last).
-
-# Expected Output:
-
-
-
-# array([9, 8, 7, 6, 5, 4, 3, 2, 1, 0])
-
-
-
-
-
-
-
-
-# 🌟 Exercise 7 : Identity Matrix
-# Instructions
-# Create a 4x4 identity matrix using NumPy.
-
-# Expected Output:
-
-
-
-# array([[1., 0., 0., 0.],
-#        [0., 1., 0., 0.],
-#        [0., 0., 1., 0.],
-#        [0., 0., 0., 1.]])
-
-
-
-
-
-
-
-
-# 🌟 Exercise 8 : Simple Aggregate Funcs
-# Instructions
-# Find the sum and average of a given 1D array.
-
-# Expected Output:
-
-
-
-# Sum: 45, Average: 4.5
-
-
-
-
-
-
-
-
-
-# 🌟 Exercise 9 : Create Array and Change its Structure
-# Instructions
-# Create a NumPy array with elements from 1 to 20; then reshape it into a 4x5 matrix.
-
-# Expected Output:
-
-
-
-# array([[ 1,  2,  3,  4,  5],
-#        [ 6,  7,  8,  9, 10],
-#        [11, 12, 13, 14, 15],
-#        [16, 17, 18, 19, 20]])
-
-
-
-
-
-
-
-# 🌟 Exercise 10 : Conditional Selection of Values
-# Instructions
-# Extract all odd numbers from a given NumPy array.
-
-# Expected Output:
-
-
-
-# array([1, 3, 5, 7, 9])
+plt.tight_layout()
+plt.show()
