@@ -81,33 +81,55 @@ sns.set_theme(style='whitegrid')
 df = pd.read_csv('train.csv')
 
 
-print('Dataset Shape:', df.shape)
-print('Missing Values Count:\n', df.isnull().sum().sum())
-print('\nFeature Data Types:\n', df.dtypes.value_counts())
+print(f'Dataset Dimensions: {df.shape[0]} rows, {df.shape[1]} columns\n')
+print('Data Types and Non-Null Counts:')
+print(df.info())
 
 
-stats_list = []
+print('\nTarget Variable (price_range) Distribution:')
+print(df['price_range'].value_counts().sort_index())
+
+
+missing_vals = df.isnull().sum().sum()
+duplicate_rows = df.duplicated().sum()
+
+print(f'Total Missing Values: {missing_vals}')
+print(f'Total Duplicate Rows: {duplicate_rows}')
+
+
+non_numeric_cols = df.select_dtypes(exclude=[np.number]).columns
+print(f'Non-numerical columns: {len(non_numeric_cols)}')
+
+
+df.head()
+
+stats_summary = []
+
 for col in df.columns:
-  col_data = df[col]
-  mode_val = stats.mode(col_data, keepdims=True).mode[0]
-  stats_list.append({
+  series = df[col]
+  mode_val = stats.mode(series, keepdims=True).mode[0]
+
+  stats_summary.append({
       'Feature': col,
-      'Mean': np.mean(col_data),
-      'Median': np.median(col_data),
+      'Mean': np.mean(series),
+      'Median': np.median(series),
       'Mode': mode_val,
-      'Range': np.ptp(col_data),
-      'Variance': np.var(col_data),
-      'Std Dev': np.std(col_data),
-      'Skewness': stats.skew(col_data),
-      'Kurtosis': stats.kurtosis(col_data),
+      'Min': np.min(series),
+      'Max': np.max(series),
+      'Range': np.ptp(series),
+      'Variance': np.var(series, ddof=1),
+      'Std Dev': np.std(series, ddof=1),
+      'Skewness': stats.skew(series),
+      'Kurtosis': stats.kurtosis(series),
   })
 
-df_desc = pd.DataFrame(stats_list).set_index('Feature')
-display(df_desc.round(2))
-
+df_stats = pd.DataFrame(stats_summary).set_index('Feature')
+display(df_stats.round(2))
 
 hypothesis_results = []
+
 for col in df.columns[:-1]:
+
   g0 = df[df['price_range'] == 0][col]
   g1 = df[df['price_range'] == 1][col]
   g2 = df[df['price_range'] == 2][col]
@@ -139,7 +161,7 @@ display(df_hypo.round(4))
 fig, axes = plt.subplots(2, 2, figsize=(16, 12))
 
 
-sns.boxplot(data=df, x='price_range', y='ram', ax=axes[0, 0], palette='Blues')
+sns.boxplot(data=df, x='price_range', y='ram', ax=axes[0, 0], palette='Purples')
 axes[0, 0].set_title(
     '1. RAM (MB) Distribution across Price Ranges',
     fontsize=12,
@@ -155,43 +177,46 @@ sns.histplot(
     hue='price_range',
     kde=True,
     ax=axes[0, 1],
-    palette='tab10',
+    palette='Set2',
     alpha=0.4,
 )
 axes[0, 1].set_title(
-    '2. Battery Power Distribution by Price Class',
+    '2. Battery Power Distribution by Price Tier',
     fontsize=12,
     fontweight='bold',
 )
 axes[0, 1].set_xlabel('Battery Power (mAh)')
 
 
+df['px_area'] = df['px_height'] * df['px_width']
 sns.scatterplot(
     data=df,
     x='ram',
-    y='px_height',
+    y='px_area',
     hue='price_range',
-    palette='Set1',
+    palette='viridis',
     alpha=0.7,
     ax=axes[1, 0],
-    s=30,
+    s=35,
 )
 axes[1, 0].set_title(
-    '3. RAM vs. Pixel Height by Price Range', fontsize=12, fontweight='bold'
+    '3. RAM vs. Pixel Area (Resolution) by Price Class',
+    fontsize=12,
+    fontweight='bold',
 )
 axes[1, 0].set_xlabel('RAM (MB)')
-axes[1, 0].set_ylabel('Pixel Height')
+axes[1, 0].set_ylabel('Pixel Area ($px^2$)')
 
 
-top_cols = [
+top_features = [
     'ram',
     'battery_power',
-    'px_height',
     'px_width',
+    'px_height',
     'int_memory',
     'price_range',
 ]
-corr_matrix = df[top_cols].corr()
+corr_matrix = df[top_features].corr()
 sns.heatmap(
     corr_matrix,
     annot=True,
@@ -201,9 +226,12 @@ sns.heatmap(
     cbar=True,
 )
 axes[1, 1].set_title(
-    '4. Feature Correlation Matrix Heatmap', fontsize=12, fontweight='bold'
+    '4. Correlation Heatmap for Top Numerical Features',
+    fontsize=12,
+    fontweight='bold',
 )
 
 plt.tight_layout()
 plt.show()
 
+Summary of FindingsDominant Determinant: RAM capacity is the overwhelming predictor of smartphone price class ($r = 0.9171$, $F = 3520.11$, $p < 0.0001$). Price tiers segment almost linearly into distinct RAM ranges.Secondary Hardware Drivers: Battery Power ($r = 0.2007$, $p < 0.0001$) and Display Resolution (px_width: $r = 0.1658$, px_height: $r = 0.1488$) serve as statistically significant secondary features that separate premium tiers from budget models.Non-Differentiating Features: Commodity connectivity options (wifi, blue, touch_screen, four_g, three_g) show virtually zero correlation with the target class ($p > 0.05$). These features are baseline standards available across all market segments.
