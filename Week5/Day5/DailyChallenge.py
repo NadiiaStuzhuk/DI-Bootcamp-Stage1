@@ -1,38 +1,38 @@
-<!-- Daily Challenge: Interactive Data Visualization with Matplotlib and Seaborn
+# Daily Challenge: Interactive Data Visualization with Matplotlib and Seaborn
 
 
-👩‍🏫 👩🏿‍🏫 What You’ll learn
-Advanced data visualization techniques.
-Interactive chart creation using Matplotlib.
-Elegant static data presentation with Seaborn.
+# 👩‍🏫 👩🏿‍🏫 What You’ll learn
+# Advanced data visualization techniques.
+# Interactive chart creation using Matplotlib.
+# Elegant static data presentation with Seaborn.
 
 
-Your Task
+# Your Task
 
 
-1. Data Preparation:
-Download and explore the US Superstore data.
-Perform basic data cleaning and preprocessing.
+# 1. Data Preparation:
+# Download and explore the US Superstore data.
+# Perform basic data cleaning and preprocessing.
 
 
-2. Data Visualization with Matplotlib:
-Create an interactive line chart to show sales trends over the years.
-Build an interactive map to visualize sales distribution by country.
+# 2. Data Visualization with Matplotlib:
+# Create an interactive line chart to show sales trends over the years.
+# Build an interactive map to visualize sales distribution by country.
 
 
-3. Data Visualization with Seaborn:
-Use Seaborn to generate a bar chart showing top 10 products by sales.
-Create a scatter plot to analyze the relationship between profit and discount.
+# 3. Data Visualization with Seaborn:
+# Use Seaborn to generate a bar chart showing top 10 products by sales.
+# Create a scatter plot to analyze the relationship between profit and discount.
 
 
-4. Comparative Analysis:
-Compare the insights gained from Matplotlib and Seaborn visualizations.
-Document your observations about the ease of use and effectiveness of both tools.
+# 4. Comparative Analysis:
+# Compare the insights gained from Matplotlib and Seaborn visualizations.
+# Document your observations about the ease of use and effectiveness of both tools.
 
 
-5. Code and Insights:
-Write clear, well-documented Python code.
-Include your analysis and insights as comments or markdown cells in your Jupyter notebook. -->
+# 5. Code and Insights:
+# Write clear, well-documented Python code.
+# Include your analysis and insights as comments or markdown cells in your Jupyter notebook.
 
 import warnings
 import matplotlib.pyplot as plt
