@@ -100,3 +100,150 @@ WHERE id = 1;
 
 -- To verify that the review was automatically deleted, you can run:
 SELECT * FROM customer_review;
+
+
+
+
+-- 🌟 Exercise 2 : DVD Rental
+-- Instructions
+-- Use UPDATE to change the language of some films. Make sure that you use valid languages.
+
+-- Which foreign keys (references) are defined for the customer table? How does this affect the way in which we INSERT into the customer table?
+
+-- We created a new table called customer_review. Drop this table. Is this an easy step, or does it need extra checking?
+
+-- Find out how many rentals are still outstanding (ie. have not been returned to the store yet).
+
+-- Find the 30 most expensive movies which are outstanding (ie. have not been returned to the store yet)
+
+-- Your friend is at the store, and decides to rent a movie. He knows he wants to see 4 movies, but he can’t remember their names. Can you help him find which movies he wants to rent?
+-- The 1st film : The film is about a sumo wrestler, and one of the actors is Penelope Monroe.
+
+-- The 2nd film : A short documentary (less than 1 hour long), rated “R”.
+
+-- The 3rd film : A film that his friend Matthew Mahan rented. He paid over $4.00 for the rental, and he returned it between the 28th of July and the 1st of August, 2005.
+
+-- The 4th film : His friend Matthew Mahan watched this film, as well. It had the word “boat” in the title or description, and it looked like it was a very expensive DVD to replace.
+
+
+-- =========================================================================
+-- 🌟 MASTER SQL SOLUTION: DVD RENTAL EXERCISES & PUZZLES
+-- =========================================================================
+
+
+-- =========================================================================
+-- PART A: DVD RENTAL - BASIC QUERIES, FILTERING & JOINS
+-- =========================================================================
+
+-- 1. Select all columns from the "customer" table
+SELECT * 
+FROM customer;
+
+-- 2. Display names (first_name, last_name) using an alias named "full_name"
+SELECT first_name || ' ' || last_name AS full_name 
+FROM customer;
+
+-- 3. Select all unique create_date from the "customer" table
+SELECT DISTINCT create_date 
+FROM customer;
+
+-- 4. Get all customer details in descending order by their first name
+SELECT * 
+FROM customer 
+ORDER BY first_name DESC;
+
+-- 5. Get film ID, title, description, year of release, and rental rate in ascending order
+SELECT film_id, title, description, release_year, rental_rate 
+FROM film 
+ORDER BY rental_rate ASC;
+
+-- 6. Get the address and phone number of all customers living in the Texas district
+SELECT address, phone 
+FROM address 
+WHERE district = 'Texas';
+
+-- 7. Retrieve all movie details where the movie ID is either 15 or 150
+SELECT * 
+FROM film 
+WHERE film_id IN (15, 150);
+
+-- 8. Check if your favorite movie exists in the database ('Academy Dinosaur')
+SELECT film_id, title, description, length, rental_rate 
+FROM film 
+WHERE title = 'Academy Dinosaur';
+
+-- 9. Get details of all movies starting with the first two letters of your favorite movie ('Ac')
+SELECT film_id, title, description, length, rental_rate 
+FROM film 
+WHERE title LIKE 'Ac%';
+
+-- 10. Find the 10 cheapest movies
+SELECT film_id, title, rental_rate 
+FROM film 
+ORDER BY rental_rate ASC 
+LIMIT 10;
+
+-- 11. Find the next 10 cheapest movies (Bonus: Without using LIMIT)
+WITH ranked_films AS (
+    SELECT film_id, title, rental_rate,
+           ROW_NUMBER() OVER (ORDER BY rental_rate ASC, film_id ASC) AS rn
+    FROM film
+)
+SELECT film_id, title, rental_rate
+FROM ranked_films
+WHERE rn BETWEEN 11 AND 20;
+
+-- 12. Join customer and payment tables to get names, amount, and payment date
+SELECT c.first_name, c.last_name, p.amount, p.payment_date
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+ORDER BY c.customer_id ASC;
+
+-- 13. Get all movies which are not in inventory
+SELECT film_id, title 
+FROM film 
+WHERE film_id NOT IN (
+    SELECT DISTINCT film_id 
+    FROM inventory
+);
+
+-- 14. Find which city is in which country
+SELECT ci.city, co.country
+FROM city ci
+JOIN country co ON ci.country_id = co.country_id;
+
+-- 15. Bonus: Customer details and payments ordered by staff member ID
+SELECT c.customer_id, c.first_name, c.last_name, p.amount, p.payment_date, p.staff_id
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+ORDER BY p.staff_id ASC;
+
+
+-- =========================================================================
+-- PART B: SQL NULL & NOT IN PUZZLE (FirstTab & SecondTab)
+-- =========================================================================
+
+-- Setup tables
+CREATE TABLE FirstTab (
+     id integer, 
+     name VARCHAR(10)
+);
+
+INSERT INTO FirstTab VALUES
+(5, 'Pawan'),
+(6, 'Sharlee'),
+(7, 'Krish'),
+(NULL, 'Avtaar');
+
+CREATE TABLE SecondTab (
+    id integer 
+);
+
+INSERT INTO SecondTab VALUES
+(5),
+(NULL);
+
+-- Puzzle test queries
+-- Q1 (Output: 0)
+SELECT COUNT(*) 
+FROM FirstTab AS ft WHERE ft.id NOT IN ( SELECT id FROM SecondTab WHERE id IS NULL );
