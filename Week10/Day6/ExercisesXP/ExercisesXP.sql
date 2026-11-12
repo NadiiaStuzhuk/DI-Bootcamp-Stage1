@@ -244,6 +244,6 @@ INSERT INTO SecondTab VALUES
 (NULL);
 
 -- Puzzle test queries
--- Q1 (Output: 0)
+-- Q1 (Output: 
 SELECT COUNT(*) 
 FROM FirstTab AS ft WHERE ft.id NOT IN ( SELECT id FROM SecondTab WHERE id IS NULL );
